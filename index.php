@@ -13,11 +13,18 @@ include "db.php";
 <body>
 	<div id="container">
 		<div id="chat_box">
+		<?php 
+			$query = "SELECT * FROM chat ORDER BY id DESC";
+			$run = $con->query($query);
+
+			while($row = $run->fetch_array()) :
+		?>
 			<div id="chat_data">
-				<span style="color:green;">Vasya: </span>
-				<span style="color:brown;">Hello world</span>
-				<span style="float:right;">12:13</span>
+				<span style="color:green;"><?=$row['name'];?></span> : 
+				<span style="color:brown;"><?=$row['msg'];?></span>
+				<span style="float:right;"><?=$row['date'];?></span>
 			</div>
+		<?php endwhile; ?>
 		</div>
 		
 		<form action="index.php" method="post">
