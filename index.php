@@ -9,22 +9,29 @@ include "db.php";
 	<meta charset="UTF-8">
 	<title>Simple Chat</title>
 	<link rel="stylesheet" href="style.css" media="all">
+	<script type="text/javascript">
+		function ajax() {
+			var req = new XMLHttpRequest();
+			req.onreadystatechange = function () {
+				if(req.readyState == 4 && req.status == 200) {
+					document.getElementById("chat").innerHTML = req.responseText;
+				}
+			}
+
+		req.open('GET', 'chat.php', true);
+		req.send();
+		}
+
+		setInterval(function(){
+			ajax();
+		},1000);
+
+	</script>
 </head>
-<body>
+<body onload="ajax();"">
 	<div id="container">
 		<div id="chat_box">
-		<?php 
-			$query = "SELECT * FROM chat ORDER BY id DESC";
-			$run = $con->query($query);
-
-			while($row = $run->fetch_array()) :
-		?>
-			<div id="chat_data">
-				<span style="color:green;"><?=$row['name'];?></span> : 
-				<span style="color:brown;"><?=$row['msg'];?></span>
-				<span style="float:right;"><?=formatDate($row['date']);?></span>
-			</div>
-		<?php endwhile; ?>
+			<div id="chat"></div>
 		</div>
 		
 		<form action="index.php" method="post">
