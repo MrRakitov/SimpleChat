@@ -22,7 +22,7 @@ include "db.php";
 			<div id="chat_data">
 				<span style="color:green;"><?=$row['name'];?></span> : 
 				<span style="color:brown;"><?=$row['msg'];?></span>
-				<span style="float:right;"><?=$row['date'];?></span>
+				<span style="float:right;"><?=formatDate($row['date']);?></span>
 			</div>
 		<?php endwhile; ?>
 		</div>
@@ -32,7 +32,20 @@ include "db.php";
 			<textarea name="message" placeholder="Enter message"></textarea>
 			<input type="submit" name="submit" value="Send it" />
 		</form>
-		
+		<?php 
+			if (isset($_POST['submit'])) {
+				$name = $_POST['name'];
+				$msg = $_POST['message'];
+
+				$query = "INSERT INTO chat (name,msg) VALUES ('$name', '$msg')";
+				$run = $con->query($query);
+				if ($run) {
+					echo "<embed loop='false' src='chat.wav' hidden='true' autoplay='true' />";
+				}
+
+			}
+			
+		?>
 	</div>
 </body>
 </html>
